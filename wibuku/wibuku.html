@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wibuku - Loading</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            min-width: 100vw;
+            background-color: #1A1D25;
+            position: relative;
+        }
+        .loading-text {
+            font-size: 6vw;
+            font-weight: bold;
+            color: #0064FF;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: separate 1s forwards, fadeOut 0.5s forwards 2s, fadeIn 0.5s forwards 2.5s, unite 1s forwards 3s, bounce 0.5s forwards 4s, rotate 2s infinite;
+        }
+        .loading-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideIn 0.5s forwards, fadeIn 0.5s forwards;
+        }
+        @keyframes separate {
+            0% { letter-spacing: 0; }
+            100% { letter-spacing: 1em; }
+        }
+        @keyframes unite {
+            0% { letter-spacing: 1em; }
+            100% { letter-spacing: 0; }
+        }  
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }  
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }  
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }  
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }  
+        @keyframes rotate {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }  
+        @keyframes textAnimation {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-text">
+        <span style="animation-delay: 0.2s;">W</span>
+        <span style="animation-delay: 0.4s;">i</span>
+        <span style="animation-delay: 0.6s;">b</span>
+        <span style="animation-delay: 0.8s;">u</span>
+        <span style="animation-delay: 1s;">k</span>
+        <span style="animation-delay: 1.2s;">u</span>
+    </div>
+    <script>
+        setTimeout(function(){
+            window.location.href = 'lib/utama/register.html';
+        }, 6000);
+    </script>
+</body>
+</html>
