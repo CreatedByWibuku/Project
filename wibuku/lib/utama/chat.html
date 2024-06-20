@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wibuku Chat</title>
+    <style>
+        body {
+            background-color: #1A1D25;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-bottom: 1px solid #333;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+            width: fit-content;
+            max-width: 60%;
+        }
+        .message.self {
+            background-color: #0064FF;
+            align-self: flex-end;
+        }
+        .message .sender {
+            font-weight: bold;
+        }
+        .message .timestamp {
+            font-size: 0.8em;
+            color: #ccc;
+            margin-top: 5px;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #333;
+            background-color: #1A1D25;
+        }
+        .input-container input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #333;
+            color: #fff;
+        }
+        .input-container button {
+            padding: 10px 20px;
+            background-color: #0064FF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-container button:hover {
+            background-color: #CC0000;
+        }
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 5%;
+            background-color: #0064FF;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .nav-bar a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .nav-bar button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #fff;
+        }
+        .icon {
+            font-size: 20px;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyBrsThIS-Rr5zcjof5anC4xrUOqNxcvxIg",
+            authDomain: "wibuku-886c9.firebaseapp.com",
+            databaseURL: "https://wibuku-886c9-default-rtdb.firebaseio.com",
+            projectId: "wibuku-886c9",
+            storageBucket: "wibuku-886c9.appspot.com",
+            messagingSenderId: "441508921100",
+            appId: "1:441508921100:web:b1ccf470707a321dda9329",
+            measurementId: "G-DK0EV347N9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var userColors = {};
+        function getUsernameFromEmail(email) {
+            return email.split('@')[0];
+        }
+        function getRandomColor() {
+            return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        }
+        function formatDate(timestamp) {
+            var date = new Date(timestamp);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+        function sendMessage() {
+            var messageInput = document.getElementById('messageInput').value;
+            var user = firebase.auth().currentUser;
+            if (messageInput.trim() !== '' && user) {
+                var messagesRef = firebase.database().ref('messages');
+                var newMessageRef = messagesRef.push();
+                newMessageRef.set({
+                    sender: user.email,
+                    message: messageInput,
+                    timestamp: Date.now()
+                });
+                document.getElementById('messageInput').value = '';
+            }
+        }
+        function displayMessage(data) {
+            var message = data.val();
+            var messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            if (message.sender === firebase.auth().currentUser.email) {
+                messageDiv.classList.add('self');
+            }
+            var senderDiv = document.createElement('div');
+            senderDiv.classList.add('sender');
+            var senderName = getUsernameFromEmail(message.sender);
+            if (!userColors[senderName]) {
+                userColors[senderName] = getRandomColor();
+            }
+            senderDiv.style.color = userColors[senderName];
+            senderDiv.textContent = senderName;
+            var textDiv = document.createElement('div');
+            textDiv.classList.add('text');
+            textDiv.textContent = message.message;
+            var timestampDiv = document.createElement('div');
+            timestampDiv.classList.add('timestamp');
+            timestampDiv.textContent = formatDate(message.timestamp);
+            messageDiv.appendChild(senderDiv);
+            messageDiv.appendChild(textDiv);
+            messageDiv.appendChild(timestampDiv);
+            document.querySelector('.chat-container').appendChild(messageDiv);
+            document.querySelector('.chat-container').scrollTop = document.querySelector('.chat-container').scrollHeight;
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    var messagesRef = firebase.database().ref('messages');
+                    messagesRef.on('child_added', function(data) {
+                        displayMessage(data);
+                    });
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="chat-container">
+    </div>
+    <div class="input-container">
+        <input type="text" id="messageInput" placeholder="Ketik pesan...">
+        <button type="button" onclick="sendMessage()">Kirim</button>
+    </div><br><br><br><br><br>
+    <div class="nav-bar">
+        <a href="home.html"><button><i class="fas fa-home icon"></i></button></a>
+        <a href="manga.html"><button><i class="fas fa-book icon"></i></button></a>
+        <a href="catalog.html"><button><i class="fas fa-th-large icon"></i></button></a>
+        <a href="chat.html"><button style="color: #000;"><i class="fas fa-comment icon"></i></button></a>
+        <a href="contact.html"><button><i class="fas fa-address-book icon"></i></button></a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</body>
+</html>

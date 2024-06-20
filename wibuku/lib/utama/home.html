@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wibuku - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #1A1D25;
+            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            padding-bottom: 80px;
+        }
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0064FF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0064FF;
+        }
+        #searchResults {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .anime-item {
+            margin: 10px;
+            width: 25%;
+            max-width: 250px;
+            text-align: center;
+        }
+        .anime-item img {
+            max-width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .anime-title {
+            color: #ffffff;
+            font-size: 9px;
+            margin-top: 5px;
+        }
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 5%;
+            background-color: #0064FF;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .nav-bar a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .nav-bar button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #fff;
+        }
+        .icon {
+            font-size: 20px;
+        }
+        .genre-buttons {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+        }
+        .genre-buttons button {
+            margin-right: 5px;
+            padding: 8px 15px;
+            background-color: #0064FF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .genre-buttons button:hover {
+            background-color: #0064FF;
+        }
+        .genre-buttons::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Selamat Datang di Wibuku</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Cari Judul Anime...">
+            <button type="button" onclick="search()">Cari</button>
+        </div>
+        <div class="genre-buttons">
+            <button onclick="goToGenre('action')">Action</button>
+            <button onclick="goToGenre('adventure')">Adventure</button>
+            <button onclick="goToGenre('comedy')">Comedy</button>
+            <button onclick="goToGenre('demons')">Demons</button>
+            <button onclick="goToGenre('drama')">Drama</button>
+            <button onclick="goToGenre('ecchi')">Ecchi</button>
+            <button onclick="goToGenre('fantasy')">Fantasy</button>
+            <button onclick="goToGenre('game')">Game</button>
+            <button onclick="goToGenre('harem')">Harem</button>
+            <button onclick="goToGenre('historical')">Historical</button>
+            <button onclick="goToGenre('horror')">Horror</button>
+            <button onclick="goToGenre('isekai')">Isekai</button>
+            <button onclick="goToGenre('josei')">Josei</button>
+            <button onclick="goToGenre('magic')">Magic</button>
+            <button onclick="goToGenre('martial arts')">Martial Arts</button>
+            <button onclick="goToGenre('mecha')">Mecha</button>
+            <button onclick="goToGenre('military')">Military</button>
+            <button onclick="goToGenre('music')">Music</button>
+            <button onclick="goToGenre('mystery')">Mystery</button>
+            <button onclick="goToGenre('psychological')">Psychological</button>
+            <button onclick="goToGenre('parody')">Parody</button>
+            <button onclick="goToGenre('police')">Police</button>
+            <button onclick="goToGenre('romance')">Romance</button>
+            <button onclick="goToGenre('samurai')">Samurai</button>
+            <button onclick="goToGenre('school')">School</button>
+            <button onclick="goToGenre('sci-fi')">Sci-Fi</button>
+            <button onclick="goToGenre('seinen')">Seinen</button>
+            <button onclick="goToGenre('shoujo')">Shoujo</button>
+            <button onclick="goToGenre('shoujo ai')">Shoujo Ai</button>
+            <button onclick="goToGenre('shounen')">Shounen</button>
+            <button onclick="goToGenre('slice of life')">Slice of Life</button>
+            <button onclick="goToGenre('sports')">Sports</button>
+            <button onclick="goToGenre('space')">Space</button>
+            <button onclick="goToGenre('super power')">Super Power</button>
+            <button onclick="goToGenre('supernatural')">Supernatural</button>
+            <button onclick="goToGenre('thriller')">Thriller</button>
+            <button onclick="goToGenre('vampire')">Vampire</button>
+        </div>
+        <div id="searchResults"></div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="home.html"><button style="color: #000;"><i class="fas fa-home icon"></i></button></a>
+        <a href="manga.html"><button><i class="fas fa-book icon"></i></button></a>
+        <a href="catalog.html"><button><i class="fas fa-th-large icon"></i></button></a>
+        <a href="chat.html"><button><i class="fas fa-comment icon"></i></button></a>
+        <a href="contact.html"><button><i class="fas fa-address-book icon"></i></button></a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        var animeDatabase = [
+            { title: "11eyes", image: "../image/anime/11eyes.jpeg", page: "../anime/11eyes.html" },
+            { title: "Absolute Duo", image: "../image/anime/A/absolute-duo.jpeg", page: "../anime/absolute-duo.html" },
+            { title: "Accel World", image: "../image/anime/A/accel-world.jpeg", page: "../anime/accel-world.html" },
+            { title: "Akaneiro ni Somaru Saka", image: "../image/anime/A/akaneiro-ni-somaru-saka.jpeg", page: "../anime/akaneiro-ni-somaru-saka.html" },
+            { title: "Asu no Yoichi", image: "../image/anime/A/asu-no-yoichi.jpeg", page: "../anime/asu-no-yoichi.html" },
+            { title: "Campione", image: "../image/anime/C/campione.jpeg", page: "../anime/campione.html" },
+            { title: "Edomae Elf", image: "../image/anime/E/edomae-elf.jpeg", page: "../anime/edomae-elf.html" },
+            { title: "Kage no Jitsuryokusha ni Naritakute", image: "../image/anime/K/kage-no-jitsuryokusha-ni-naritakute.jpeg", page: "../anime/kage-no-jitsuryokusha-ni-naritakute.html" },
+            { title: "Kakkou no Iinazuke", image: "../image/anime/K/kakkou-no-iinazuke.jpeg", page: "../anime/kakkou-no-iinazuke.html" },
+            { title: "Kinsou no Vermeil", image: "../image/anime/K/kinsou-no-vermeil.jpeg", page: "../anime/kinsou-no-vermeil.html" },
+            { title: "Masamune-kun no Revenge", image: "../image/anime/M/masamune-kun-no-revenge.jpeg", page: "../anime/masamune-kun-no-revenge.html" },
+            { title: "Masamune-kun no Revenge R", image: "../image/anime/M/masamune-kun-no-revenge-r.jpeg", page: "../anime/masamune-kun-no-revenge-r.html" },
+            { title: "Mashle", image: "../image/anime/M/mashle.jpeg", page: "../anime/mashle.html" },
+            { title: "Mashle Season 2", image: "../image/anime/M/mashle-season-2.jpeg", page: "../anime/mashle-season-2.html" },
+            { title: "Mato Seihei no Slave", image: "../image/anime/M/mato-seihei-no-slave.jpeg", page: "../anime/mato-seihei-no-slave.html" },
+            { title: "Osamake", image: "../image/anime/O/osamake.jpeg", page: "../anime/osamake.html" },
+            { title: "Saikyou Tank no Meikyuu Kouryaku", image: "../image/anime/S/saikyou-tank-no-meikyuu-kouryaku.jpeg", page: "../anime/saikyou-tank-no-meikyuu-kouryaku.html" },
+            { title: "Sora no Otoshimono", image: "../image/anime/S/sora-no-otoshimono.jpeg", page: "../anime/sora-no-otoshimono.html" },
+            { title: "Sora no Otoshimono Season 2", image: "../image/anime/S/sora-no-otoshimono-season-2.jpeg", page: "../anime/sora-no-otoshimono-season-2.html" },
+            { title: "Tejina Senpai", image: "../image/anime/T/tejina-senpai.jpeg", page: "../anime/tejina-senpai.html" },
+            { title: "Tensei Kizoku no Isekai Boukenroku", image: "../image/anime/T/tensei-kizoku-no-isekai-boukenroku.jpeg", page: "../anime/tensei-kizoku-no-isekai-boukenroku.html" },
+            { title: "Trinity Seven", image: "../image/anime/T/trinity-seven.jpeg", page: "../anime/trinity-seven.html" },
+            { title: "Uzaki-chan wa Asobitai", image: "../image/anime/U/uzaki-chan-wa-asobitai.jpeg", page: "../anime/uzaki-chan-wa-asobitai.html" },
+            { title: "Uzaki-chan wa Asobitai Season 2", image: "../image/anime/U/uzaki-chan-wa-asobitai-season-2.jpeg", page: "../anime/uzaki-chan-wa-asobitai-season-2.html" },
+            { title: "Watamote", image: "../image/anime/W/watamote.jpeg", page: "../anime/watamote.html" }
+        ];
+        function search() {
+            var searchText = document.getElementById('searchInput').value.toLowerCase();
+            var searchResultsDiv = document.getElementById('searchResults');
+            searchResultsDiv.innerHTML = '';
+            animeDatabase.forEach(function(anime) {
+                if (anime.title.toLowerCase().includes(searchText)) {
+                    var animeItem = document.createElement('div');
+                    animeItem.classList.add('anime-item');
+                    var link = document.createElement('a');
+                    link.href = anime.page;
+                    var image = document.createElement('img');
+                    image.src = anime.image;
+                    image.alt = anime.title;
+                    var title = document.createElement('div');
+                    title.classList.add('anime-title');
+                    title.textContent = anime.title;
+                    link.appendChild(image);
+                    animeItem.appendChild(link);
+                    animeItem.appendChild(title);
+                    searchResultsDiv.appendChild(animeItem);
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            search();
+        });
+        function goToGenre(genre) {
+            var genrePages = {
+                'action': '../anime-genre/action.html',
+                'adventure': '../anime-genre/adventure.html',
+                'comedy': '../anime-genre/comedy.html', 
+                'demons': '../anime-genre/demons.html', 
+                'drama': '../anime-genre/drama.html',
+                'ecchi': '../anime-genre/ecchi.html',
+                'fantasy': '../anime-genre/fantasy.html',
+                'game': '../anime-genre/game.html',
+                'harem': '../anime-genre/harem.html',
+                'historical': '../anime-genre/historical.html',
+                'horror': '../anime-genre/horror.html',
+                'isekai': '../anime-genre/isekai.html',
+                'josei': '../anime-genre/josei.html',
+                'magic': '../anime-genre/magic.html',
+                'martial arts': '../anime-genre/martial-arts.html',
+                'mecha': '../anime-genre/mecha.html',
+                'military': '../anime-genre/military.html',
+                'music': '../anime-genre/music.html',
+                'mystery': '../anime-genre/mystery.html',
+                'psychological': '../anime-genre/psychological.html',
+                'parody': '../anime-genre/parody.html',
+                'police': '../anime-genre/police.html',
+                'romance': '../anime-genre/romance.html',
+                'samurai': '../anime-genre/samurai.html',
+                'school': '../anime-genre/school.html',
+                'sci-fi': '../anime-genre/sci-fi.html',
+                'seinen': '../anime-genre/seinen.html',
+                'shoujo': '../anime-genre/shoujo.html',
+                'shoujo ai': '../anime-genre/shoujo-ai.html',
+                'shounen': '../anime-genre/shounen.html',
+                'slice of life': '../anime-genre/slice-of-life.html',
+                'sports': '../anime-genre/sports.html',
+                'space': '../anime-genre/space.html',
+                'super power': '../anime-genre/super-power.html',
+                'supernatural': '../anime-genre/supernatural.html',
+                'thriller': '../anime-genre/thriller.html',
+                'vampire': '../anime-genre/vampire.html'
+            };
+            var genrePage = genrePages[genre];
+            if (genrePage) {
+                window.location.href = genrePage;
+            }
+        }
+    </script>
+</body>
+</html>
